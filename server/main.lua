@@ -1,4 +1,5 @@
 local curVersion, resourceName = GetResourceMetadata(GetCurrentResourceName(), 'version'), 'JD_CommunityService'
+local WebhookURL = ''
 
 if Config.Framework == 'qbcore' then
 	QBCore = exports['qb-core']:GetCoreObject()
@@ -182,7 +183,7 @@ function sendToDiscord(color, name, message, footer)
 		}
 	}
 
-	PerformHttpRequest(Config.Webhook, function(err, text, headers) end, 'POST', json.encode({ username = name, embeds = embed }), { ['Content-Type'] = 'application/json' })
+	PerformHttpRequest(WebhookURL, function(err, text, headers) end, 'POST', json.encode({ username = name, embeds = embed }), { ['Content-Type'] = 'application/json' })
 end
 
 if Config.checkForUpdates then
