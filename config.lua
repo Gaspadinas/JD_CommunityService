@@ -8,8 +8,6 @@ Config.InteractionType = 'points' -- Either ox_target or points (Qtarget maybe s
 
 Config.EnableWebhook = false
 
-Config.Webhook = ''
-
 -- # By how many services a player's community service gets extended if he tries to escape
 Config.ServiceExtensionOnEscape = 2
 
