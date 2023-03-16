@@ -170,7 +170,7 @@ startSweep = function(point)
 	end
 	lib.hideTextUI()
 	local progress = lib.progressCircle({
-		duration = 5000,
+		duration = Config.ActionTime,
 		label = 'Sweeping ground',
 		useWhileDead = false,
 		allowRagdoll = false,
