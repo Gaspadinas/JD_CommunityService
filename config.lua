@@ -2,6 +2,8 @@ Config = {}
 
 Config.Framework = 'esx' -- qbcore | esx
 
+Config.ActionTime = 5000
+
 Config.checkForUpdates = true
 
 Config.InteractionType = 'points' -- Either ox_target or points (Qtarget maybe soon?)
