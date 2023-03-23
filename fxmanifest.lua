@@ -3,7 +3,7 @@ games { 'gta5' }
 
 description 'JD Community Service ESX/QB'
 
-version '1.0.5'
+version '1.0.6'
 lua54 'yes'
 
 shared_scripts {
