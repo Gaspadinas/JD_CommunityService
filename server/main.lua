@@ -105,11 +105,12 @@ RegisterCommand('communityService', function(source, args, rawCommand)
 end, false)
 
 RegisterCommand('communityServiceAdmin', function(source, args, rawCommand)
-	local input = lib.callback.await('JD_CommunityService:inputCallback', source)
-	print(input[1])
-	local targetID = tonumber(input[1])
-	local actionCount = input[2]
-	sendToService(targetID, actionCount)
+	if IsPlayerAceAllowed(source, 'communityService') then
+		local input = lib.callback.await('JD_CommunityService:inputCallback', source)
+		local targetID = tonumber(input[1])
+		local actionCount = input[2]
+		sendToService(targetID, actionCount)
+	end
 end, true)
 
 RegisterCommand('releaseCommunityService', function(source, args, rawCommand)
@@ -139,23 +140,25 @@ RegisterCommand('releaseCommunityService', function(source, args, rawCommand)
 end, true)
 
 RegisterCommand('releaseCommunityServiceAdmin', function(source, args, rawCommand)
-	local _source = source -- cannot parse source to client trigger for some weird reason
-	local input = lib.callback.await('JD_CommunityService:inputCallbackRelease', source)
-	local targetPlayer = GetPlayer(input[1])
+	if IsPlayerAceAllowed(source, 'communityService') then
+		local _source = source -- cannot parse source to client trigger for some weird reason
+		local input = lib.callback.await('JD_CommunityService:inputCallbackRelease', source)
+		local targetPlayer = GetPlayer(input[1])
 
-	if targetPlayer == nil then
-		return showNotification(source, 'Invalid ID / No one sent!')
-	end
+		if targetPlayer == nil then
+			return showNotification(source, 'Invalid ID / No one sent!')
+		end
 
-	TriggerClientEvent('JD_CommunityService:releaseService', input[1])
-	if Config.EnableWebhook then
-		local realeased = GetPlayer(input[1])
-		local realeaser = GetPlayer(_source)
-		local name = getPlayerName(realeased)
-		local name2 = getPlayerName(realeaser)
-		sendToDiscord(16753920, 'Community Service Alert', name .. ' was released from community service by ' .. name2, 'Made by JackDUpModZ')
+		TriggerClientEvent('JD_CommunityService:releaseService', input[1])
+		if Config.EnableWebhook then
+			local realeased = GetPlayer(input[1])
+			local realeaser = GetPlayer(_source)
+			local name = getPlayerName(realeased)
+			local name2 = getPlayerName(realeaser)
+			sendToDiscord(16753920, 'Community Service Alert', name .. ' was released from community service by ' .. name2, 'Made by JackDUpModZ')
+		end
 	end
-end, true)
+end, false)
 
 lib.callback.register('JD_CommunityService:communityMenu', function()
 	local _source = source -- cannot parse source to client trigger for some weird reason
