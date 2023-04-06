@@ -1,5 +1,8 @@
 local inService, targetList, drawMarker, markerData, obj, existingActions = false, {}, false, nil, nil, nil
 
+local savedClothing
+local savedProps
+
 if Config.Framework == 'qbcore' then
 	QBCore = GetResourceState('qb-core') == 'started' and exports['qb-core']:GetCoreObject()
 
@@ -203,24 +206,25 @@ updateFunction = function()
 	end
 end
 
-changeClothing = function()
-	local gender = GetEntityModel(PlayerPedId())
-	local PlayerPed = PlayerPedId()
-	if gender == 'mp_m_freemode_01' then
-		for k, v in pairs(Config.Clothes.male.components) do
-			SetPedComponentVariation(PlayerPed, v['component_id'], v['drawable'], v['texture'], 0)
-		end
+changeClothing = function()	
+	savedClothing = exports['fivem-appearance']:getPedComponents(PlayerPedId())
+	savedProps = exports['fivem-appearance']:getPedProps(PlayerPedId())
+	local pedModel = exports['fivem-appearance']:getPedModel(PlayerPedId())
+	if pedModel == 'mp_m_freemode_01' then
+		exports['fivem-appearance']:setPedComponents(PlayerPedId(), Config.Clothes.male.components)
 	else
-		for k, v in pairs(Config.Clothes.female.components) do
-			SetPedComponentVariation(PlayerPed, v['component_id'], v['drawable'], v['texture'], 0)
-		end
+		exports['fivem-appearance']:setPedComponents(PlayerPedId(), Config.Clothes.female.components)
 	end
 end
 
 returnClothing = function()
-	ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-		TriggerEvent('skinchanger:loadSkin', skin)
-	end)
+	playerPed = PlayerPedId()
+	exports['fivem-appearance']:setPedComponents(playerPed, savedClothing)
+	exports['fivem-appearance']:setPedProps(playerPed, savedProps)
+	local appearance = exports['fivem-appearance']:getPedAppearance(playerPed)
+	TriggerServerEvent('fivem-appearance:save', appearance)
+	savedClothing = nil
+	savedProps = nil
 end
 
 lib.callback.register('JD_CommunityService:inputCallback', function()
