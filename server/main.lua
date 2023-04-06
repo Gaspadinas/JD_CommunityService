@@ -111,7 +111,7 @@ RegisterCommand('communityServiceAdmin', function(source, args, rawCommand)
 		local actionCount = input[2]
 		sendToService(targetID, actionCount)
 	end
-end, true)
+end, false)
 
 RegisterCommand('releaseCommunityService', function(source, args, rawCommand)
 	local _source = source -- cannot parse source to client trigger for some weird reason
