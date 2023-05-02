@@ -229,11 +229,20 @@ returnClothing = function()
 end
 
 lib.callback.register('JD_CommunityService:inputCallback', function()
-	local input = lib.inputDialog('Community Service', {
-		{ type = 'input', label = 'Citizen ID', description = 'Citizen ID of the person to be released', required = true },
-		{ type = 'input', label = 'Number of actions', description = 'Number of actions citizen will need to carry out', required = true }
-	}, { allowCancel = false })
-	return input
+    local input = lib.inputDialog('Community Service', {
+        { type = 'input', label = 'Citizen ID', description = 'Citizen ID of the person to be released', required = true },
+        { type = 'input', label = 'Number of actions', description = 'Number of actions citizen will need to carry out', required = true }
+    }, { allowCancel = false })
+
+    local targetID = tonumber(input[1])
+    local actionCount = tonumber(input[2])
+
+    if not targetID or not actionCount then
+        ShowNotification('Write numbers only.')
+        return
+    end
+
+    return input
 end)
 
 lib.callback.register('JD_CommunityService:inputCallbackRelease', function()
